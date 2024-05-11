@@ -15,6 +15,10 @@ Authors:
 
 # Symmetric Key Cryptography
 
+Imagine trying to keep a secret by yelling it across a crowded room while everyone uses the same codebook to decipher your message. That's basically the gist of symmetric key cryptography – it's like trying to be sneaky with a megaphone.
+
+Sure, this type of encryption does the bare minimum to scramble your data, but it's not exactly Fort Knox. We're going to dive into why symmetric key cryptography often leaves you feeling a bit exposed, and why sometimes, having the same key for everything is like leaving your house key under the welcome mat.
+
 ## Semantic Cryptography
 
 ### IND-CPA
@@ -100,3 +104,11 @@ The encrypted ciphertext output will be the ciphertext of the first block, which
 
 Unlike ECB mode, each block in CBC will have a different ciphertext, even if the plaintext messages are the same.
 Thus, preventing any leakage of plaintext information.
+
+## Conclusion
+
+So, there you have it. Symmetric key cryptography, while a good starting point, is a bit like securing your valuables with a padlock made of cheese. Sure, it might deter the casual nibbler, but a determined adversary is going to have a feast.
+
+We've learned that playing encryption hide-and-seek with a predictable pattern (thanks, ECB) isn't the brightest idea. And, just like you wouldn't use the same key for your house, car, and secret candy vault, diversifying your encryption methods is key (pun intended) to keeping your digital goodies safe.
+
+Remember, in the world of cybersecurity, being a little bit paranoid is often a good thing. So upgrade your encryption game, mix it up, and don't be afraid to get a little weird with your ciphers. After all, a confused attacker is a safer you!
